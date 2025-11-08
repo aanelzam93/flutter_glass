@@ -147,115 +147,87 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 60),
-                    // Login Card with Blended Glass Effect
-                    LiquidGlassBlendGroup(
-                      blend: 20.0,
+                    // Login Card with Glass Effect
+                    LiquidGlass(
+                      shape: LiquidRoundedSuperellipse(borderRadius: 24),
                       child: Container(
                         width: double.infinity,
                         constraints: const BoxConstraints(maxWidth: 400),
+                        padding: const EdgeInsets.all(32),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // Main login card
-                            LiquidGlass.grouped(
-                              shape: LiquidRoundedSuperellipse(borderRadius: 24),
-                              child: Container(
-                                padding: const EdgeInsets.all(32),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(0.1),
-                                    width: 1,
+                            // Email field
+                            _buildGlassTextField(
+                              controller: _emailController,
+                              label: 'Email',
+                              icon: Icons.email_outlined,
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(height: 20),
+                            // Password field
+                            _buildGlassTextField(
+                              controller: _passwordController,
+                              label: 'Password',
+                              icon: Icons.lock_outlined,
+                              obscureText: true,
+                            ),
+                            const SizedBox(height: 30),
+                            // Login Button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 56,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: _handleLogin,
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF4A5FFF),
+                                          Color(0xFF00D4FF),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(16),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0xFF4A5FFF).withOpacity(0.4),
+                                          blurRadius: 20,
+                                          offset: const Offset(0, 10),
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Text(
+                                      'Sign In',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(24),
                                 ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    // Email field with glass blend
-                                    LiquidGlass.grouped(
-                                      shape: LiquidRoundedSuperellipse(borderRadius: 14),
-                                      child: _buildGlassTextField(
-                                        controller: _emailController,
-                                        label: 'Email',
-                                        icon: Icons.email_outlined,
-                                        keyboardType: TextInputType.emailAddress,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    // Password field with glass blend
-                                    LiquidGlass.grouped(
-                                      shape: LiquidRoundedSuperellipse(borderRadius: 14),
-                                      child: _buildGlassTextField(
-                                        controller: _passwordController,
-                                        label: 'Password',
-                                        icon: Icons.lock_outlined,
-                                        obscureText: true,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 30),
-                                    // Login Button with blended glass
-                                    SizedBox(
-                                      width: double.infinity,
-                                      height: 56,
-                                      child: LiquidStretch(
-                                        stretch: 0.4,
-                                        interactionScale: 1.05,
-                                        child: LiquidGlass.grouped(
-                                          shape: LiquidRoundedSuperellipse(borderRadius: 16),
-                                          child: GlassGlow(
-                                            glowColor: Colors.white.withOpacity(0.5),
-                                            glowRadius: 2.0,
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: InkWell(
-                                                onTap: _handleLogin,
-                                                borderRadius: BorderRadius.circular(16),
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                    gradient: const LinearGradient(
-                                                      colors: [
-                                                        Color(0xFF4A5FFF),
-                                                        Color(0xFF00D4FF),
-                                                      ],
-                                                    ),
-                                                    borderRadius: BorderRadius.circular(16),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: const Color(0xFF4A5FFF).withOpacity(0.4),
-                                                        blurRadius: 20,
-                                                        offset: const Offset(0, 10),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: const Text(
-                                                    'Sign In',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 0.5,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    // Forgot password
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Forgot Password?',
-                                        style: TextStyle(
-                                          color: Colors.white.withOpacity(0.9),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            // Forgot password
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
                                 ),
                               ),
                             ),
