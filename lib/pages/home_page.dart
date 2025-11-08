@@ -126,10 +126,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // Main content
-          SafeArea(
-            child: Column(
-              children: [
+          // Main content with LiquidGlass effect
+          LiquidGlassLayer(
+            child: SafeArea(
+              child: Column(
+                children: [
                 // Top App Bar
                 Padding(
                   padding: const EdgeInsets.all(16),
@@ -271,7 +272,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -505,11 +507,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildAppleBottomNav() {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-      height: 72,
-      child: LiquidGlassBlendGroup(
-        child: LiquidGlass(
+    return LiquidGlassLayer(
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+        height: 72,
+        child: LiquidGlassBlendGroup(
+          child: LiquidGlass(
           shape: const LiquidRoundedSuperellipse(
             borderRadius: 24,
           ),
@@ -551,12 +554,12 @@ class _HomePageState extends State<HomePage> {
                 isSelected: _selectedIndex == 3,
                 onTap: () => setState(() => _selectedIndex = 3),
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
   }
 
   Widget _buildNavIcon({
