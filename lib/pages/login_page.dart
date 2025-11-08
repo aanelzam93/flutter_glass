@@ -180,40 +180,51 @@ class _LoginPageState extends State<LoginPage> {
                               obscureText: true,
                             ),
                             const SizedBox(height: 30),
-                            // Login Button
+                            // Login Button with Interactive Glass Effect
                             SizedBox(
                               width: double.infinity,
                               height: 56,
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: _handleLogin,
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xFF4A5FFF),
-                                          Color(0xFF00D4FF),
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(16),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: const Color(0xFF4A5FFF).withOpacity(0.4),
-                                          blurRadius: 20,
-                                          offset: const Offset(0, 10),
+                              child: LiquidStretch(
+                                stretch: 0.4,
+                                interactionScale: 1.05,
+                                child: LiquidGlass.withOwnLayer(
+                                  shape: LiquidRoundedSuperellipse(borderRadius: 16),
+                                  child: GlassGlow(
+                                    glowColor: Colors.white.withOpacity(0.5),
+                                    glowRadius: 2.0,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: _handleLogin,
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            gradient: const LinearGradient(
+                                              colors: [
+                                                Color(0xFF4A5FFF),
+                                                Color(0xFF00D4FF),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(16),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF4A5FFF).withOpacity(0.4),
+                                                blurRadius: 20,
+                                                offset: const Offset(0, 10),
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Text(
+                                            'Sign In',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.5,
+                                            ),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                    child: const Text(
-                                      'Sign In',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.5,
                                       ),
                                     ),
                                   ),
