@@ -11,6 +11,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  Offset? _glassPosition;
+  bool _showGlass = false;
 
   final List<Map<String, dynamic>> _stockItems = [
     {
@@ -506,49 +508,152 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
       height: 72,
-      child: LiquidGlassLayer(
-        child: LiquidGlass(
-          shape: LiquidRoundedSuperellipse(borderRadius: 24),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.white.withOpacity(0.1),
-                width: 1,
+      child: GestureDetector(
+        onPanStart: (details) {
+          setState(() {
+            _showGlass = true;
+            _glassPosition = details.localPosition;
+          });
+        },
+        onPanUpdate: (details) {
+          setState(() {
+            _glassPosition = details.localPosition;
+          });
+        },
+        onPanEnd: (details) {
+          setState(() {
+            _showGlass = false;
+          });
+        },
+        onLongPressStart: (details) {
+          setState(() {
+            _showGlass = true;
+            _glassPosition = details.localPosition;
+          });
+        },
+        onLongPressMoveUpdate: (details) {
+          setState(() {
+            _glassPosition = details.localPosition;
+          });
+        },
+        onLongPressEnd: (details) {
+          setState(() {
+            _showGlass = false;
+          });
+        },
+        child: LiquidGlassLayer(
+          child: Stack(
+            children: [
+              // Main navigation bar
+              LiquidGlass(
+                shape: LiquidRoundedSuperellipse(borderRadius: 24),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 30,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildNavIcon(
+                        icon: Icons.home_filled,
+                        isSelected: _selectedIndex == 0,
+                        onTap: () => setState(() => _selectedIndex = 0),
+                      ),
+                      _buildNavIcon(
+                        icon: Icons.trending_up,
+                        isSelected: _selectedIndex == 1,
+                        onTap: () => setState(() => _selectedIndex = 1),
+                      ),
+                      _buildNavIcon(
+                        icon: Icons.explore_outlined,
+                        isSelected: _selectedIndex == 2,
+                        onTap: () => setState(() => _selectedIndex = 2),
+                      ),
+                      _buildNavIcon(
+                        icon: Icons.person_outline,
+                        isSelected: _selectedIndex == 3,
+                        onTap: () => setState(() => _selectedIndex = 3),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 30,
-                  offset: const Offset(0, 10),
+              // Interactive glass blob effect
+              if (_showGlass && _glassPosition != null)
+                Positioned(
+                  left: _glassPosition!.dx - 50,
+                  top: _glassPosition!.dy - 50,
+                  child: IgnorePointer(
+                    child: AnimatedOpacity(
+                      opacity: _showGlass ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 100),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Outer glow
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(
+                                colors: [
+                                  const Color(0xFF4A5FFF).withOpacity(0.3),
+                                  const Color(0xFF00D4FF).withOpacity(0.15),
+                                  Colors.transparent,
+                                ],
+                                stops: const [0.0, 0.6, 1.0],
+                              ),
+                            ),
+                          ),
+                          // Glass blob with blur
+                          LiquidGlass(
+                            shape: LiquidRoundedSuperellipse(borderRadius: 35),
+                            child: Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: RadialGradient(
+                                  colors: [
+                                    Colors.white.withOpacity(0.3),
+                                    Colors.white.withOpacity(0.1),
+                                    Colors.transparent,
+                                  ],
+                                  stops: const [0.0, 0.5, 1.0],
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF4A5FFF).withOpacity(0.5),
+                                    blurRadius: 25,
+                                    spreadRadius: 5,
+                                  ),
+                                  BoxShadow(
+                                    color: const Color(0xFF00D4FF).withOpacity(0.3),
+                                    blurRadius: 35,
+                                    spreadRadius: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavIcon(
-                  icon: Icons.home_filled,
-                  isSelected: _selectedIndex == 0,
-                  onTap: () => setState(() => _selectedIndex = 0),
-                ),
-                _buildNavIcon(
-                  icon: Icons.trending_up,
-                  isSelected: _selectedIndex == 1,
-                  onTap: () => setState(() => _selectedIndex = 1),
-                ),
-                _buildNavIcon(
-                  icon: Icons.explore_outlined,
-                  isSelected: _selectedIndex == 2,
-                  onTap: () => setState(() => _selectedIndex = 2),
-                ),
-                _buildNavIcon(
-                  icon: Icons.person_outline,
-                  isSelected: _selectedIndex == 3,
-                  onTap: () => setState(() => _selectedIndex = 3),
-                ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
