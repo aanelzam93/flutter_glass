@@ -1,5 +1,5 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -288,20 +288,21 @@ class _HomePageState extends State<HomePage> {
     required String percentage,
     required IconData icon,
   }) {
-    return LiquidGlass(
-      shape: const LiquidRoundedRectangle(
-        borderRadius: Radius.circular(20),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.white.withOpacity(0.08),
-            width: 1,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.08),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(20),
           ),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
+          child: Row(
           children: [
             Container(
               width: 50,
@@ -378,7 +379,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 
   Widget _buildStockCard({
@@ -389,20 +391,21 @@ class _HomePageState extends State<HomePage> {
     required String percentage,
     required bool isPositive,
   }) {
-    return LiquidGlass(
-      shape: const LiquidRoundedRectangle(
-        borderRadius: Radius.circular(16),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.white.withOpacity(0.05),
-            width: 1,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.03),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.05),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(16),
           ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
+          child: Row(
           children: [
             // Stock Icon
             Container(
@@ -501,33 +504,35 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 
   Widget _buildAppleBottomNav() {
     return Container(
       margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
       height: 72,
-      child: LiquidGlass(
-        shape: const LiquidRoundedRectangle(
-          borderRadius: Radius.circular(24),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.1),
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 30,
-                offset: const Offset(0, 10),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
               ),
-            ],
-          ),
-          child: Row(
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 30,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildNavIcon(
@@ -554,7 +559,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 
   Widget _buildNavIcon({
