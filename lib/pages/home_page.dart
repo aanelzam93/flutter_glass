@@ -289,8 +289,8 @@ class _HomePageState extends State<HomePage> {
     required IconData icon,
   }) {
     return LiquidGlass(
-      shape: LiquidRoundedSuperellipse(
-        borderRadius: const Radius.circular(20),
+      shape: const LiquidRoundedRectangle(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: Container(
         padding: const EdgeInsets.all(20),
@@ -390,8 +390,8 @@ class _HomePageState extends State<HomePage> {
     required bool isPositive,
   }) {
     return LiquidGlass(
-      shape: LiquidRoundedSuperellipse(
-        borderRadius: const Radius.circular(16),
+      shape: const LiquidRoundedRectangle(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -509,8 +509,8 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
       height: 72,
       child: LiquidGlass(
-        shape: LiquidRoundedSuperellipse(
-          borderRadius: const Radius.circular(24),
+        shape: const LiquidRoundedRectangle(
+          borderRadius: BorderRadius.all(Radius.circular(24)),
         ),
         child: Container(
           decoration: BoxDecoration(
