@@ -12,30 +12,55 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  final List<Map<String, dynamic>> _dashboardItems = [
+  final List<Map<String, dynamic>> _stockItems = [
     {
-      'icon': Icons.analytics_outlined,
-      'title': 'Analytics',
-      'value': '2,847',
-      'color': const Color(0xFF667eea),
+      'symbol': 'AAPL',
+      'name': 'Apple Inc.',
+      'price': '\$178.45',
+      'change': '+2.34',
+      'percentage': '+1.33%',
+      'isPositive': true,
     },
     {
-      'icon': Icons.people_outline,
-      'title': 'Users',
-      'value': '1,234',
-      'color': const Color(0xFF764ba2),
+      'symbol': 'TSLA',
+      'name': 'Tesla Inc.',
+      'price': '\$238.72',
+      'change': '-5.28',
+      'percentage': '-2.16%',
+      'isPositive': false,
     },
     {
-      'icon': Icons.shopping_bag_outlined,
-      'title': 'Orders',
-      'value': '567',
-      'color': const Color(0xFFf093fb),
+      'symbol': 'GOOGL',
+      'name': 'Alphabet Inc.',
+      'price': '\$142.58',
+      'change': '+3.87',
+      'percentage': '+2.79%',
+      'isPositive': true,
     },
     {
-      'icon': Icons.attach_money,
-      'title': 'Revenue',
-      'value': '\$12.5K',
-      'color': const Color(0xFF4facfe),
+      'symbol': 'MSFT',
+      'name': 'Microsoft Corp.',
+      'price': '\$378.91',
+      'change': '+1.45',
+      'percentage': '+0.38%',
+      'isPositive': true,
+    },
+  ];
+
+  final List<Map<String, dynamic>> _portfolioStats = [
+    {
+      'title': 'Portfolio Value',
+      'value': '\$124,580',
+      'change': '+\$8,240',
+      'percentage': '+7.08%',
+      'icon': Icons.account_balance_wallet_outlined,
+    },
+    {
+      'title': 'Today\'s Gain',
+      'value': '+\$2,458',
+      'change': '+1.98%',
+      'percentage': '',
+      'icon': Icons.trending_up,
     },
   ];
 
@@ -49,284 +74,424 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0A0E27),
       body: Stack(
         children: [
-          // Background gradient
+          // Dark background gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF667eea),
-                  Color(0xFF764ba2),
-                  Color(0xFFf093fb),
-                  Color(0xFF4facfe),
+                  Color(0xFF0A0E27),
+                  Color(0xFF1A1F3A),
+                  Color(0xFF0F1419),
                 ],
               ),
             ),
           ),
           // Background decorative circles
           Positioned(
-            top: -150,
+            top: -100,
             right: -100,
             child: Container(
               width: 400,
               height: 400,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.05),
+                gradient: RadialGradient(
+                  colors: [
+                    const Color(0xFF4A5FFF).withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
           ),
           Positioned(
-            bottom: -100,
+            bottom: -150,
             left: -150,
             child: Container(
               width: 500,
               height: 500,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.05),
+                gradient: RadialGradient(
+                  colors: [
+                    const Color(0xFF00D4FF).withOpacity(0.08),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
           ),
-          // Main content with LiquidGlass
-          LiquidGlassLayer(
-            child: SafeArea(
-              child: Column(
-                children: [
-                  // Top App Bar with Glass Effect
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: LiquidGlass(
-                      shape: LiquidRoundedSuperellipse(borderRadius: 20),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                        child: Row(
-                          children: [
-                            LiquidGlass(
-                              shape: LiquidRoundedSuperellipse(borderRadius: 12),
-                              child: Container(
-                                width: 48,
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
+          // Main content
+          SafeArea(
+            child: Column(
+              children: [
+                // Top App Bar
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Portfolio',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.6),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          const Text(
+                            'Market Overview',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.1),
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            const Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Welcome back!',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'User Dashboard',
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.notifications_outlined,
+                                color: Colors.white.withOpacity(0.8),
+                                size: 20,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.1),
                               ),
                             ),
-                            IconButton(
-                              icon: const Icon(
+                            child: IconButton(
+                              icon: Icon(
                                 Icons.logout,
-                                color: Colors.white,
+                                color: Colors.white.withOpacity(0.8),
+                                size: 20,
                               ),
                               onPressed: _handleLogout,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ),
+                    ],
                   ),
-                  // Main Content
-                  Expanded(
+                ),
+                // Main Content
+                Expanded(
+                  child: LiquidGlassLayer(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Dashboard Stats Grid
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio: 1.3,
-                            ),
-                            itemCount: _dashboardItems.length,
-                            itemBuilder: (context, index) {
-                              final item = _dashboardItems[index];
-                              return _buildDashboardCard(
-                                icon: item['icon'],
-                                title: item['title'],
-                                value: item['value'],
-                                color: item['color'],
-                              );
-                            },
-                          ),
+                          // Portfolio Stats Cards
+                          ...List.generate(_portfolioStats.length, (index) {
+                            final stat = _portfolioStats[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: _buildPortfolioCard(
+                                title: stat['title'],
+                                value: stat['value'],
+                                change: stat['change'],
+                                percentage: stat['percentage'],
+                                icon: stat['icon'],
+                              ),
+                            );
+                          }),
                           const SizedBox(height: 24),
-                          // Recent Activity Section
-                          const Text(
-                            'Recent Activity',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          _buildActivityCard(
-                            title: 'New Order',
-                            subtitle: 'Order #12345 has been placed',
-                            icon: Icons.shopping_cart,
-                            time: '2 min ago',
+                          // My Stocks Section
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'My Stocks',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'See All',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.5),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 12),
-                          _buildActivityCard(
-                            title: 'User Registration',
-                            subtitle: '5 new users registered',
-                            icon: Icons.person_add,
-                            time: '1 hour ago',
-                          ),
-                          const SizedBox(height: 12),
-                          _buildActivityCard(
-                            title: 'Payment Received',
-                            subtitle: 'Payment of \$450 received',
-                            icon: Icons.payment,
-                            time: '3 hours ago',
-                          ),
+                          // Stock List
+                          ...List.generate(_stockItems.length, (index) {
+                            final stock = _stockItems[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: _buildStockCard(
+                                symbol: stock['symbol'],
+                                name: stock['name'],
+                                price: stock['price'],
+                                change: stock['change'],
+                                percentage: stock['percentage'],
+                                isPositive: stock['isPositive'],
+                              ),
+                            );
+                          }),
                         ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      // Bottom Navigation with Glass Effect
-      bottomNavigationBar: LiquidGlassLayer(
-        child: Container(
-          margin: const EdgeInsets.all(16),
-          child: LiquidGlass(
-            shape: LiquidRoundedSuperellipse(borderRadius: 20),
-            child: Container(
-              height: 70,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavItem(
-                    icon: Icons.home,
-                    label: 'Home',
-                    isSelected: _selectedIndex == 0,
-                    onTap: () => setState(() => _selectedIndex = 0),
-                  ),
-                  _buildNavItem(
-                    icon: Icons.search,
-                    label: 'Search',
-                    isSelected: _selectedIndex == 1,
-                    onTap: () => setState(() => _selectedIndex = 1),
-                  ),
-                  _buildNavItem(
-                    icon: Icons.notifications,
-                    label: 'Alerts',
-                    isSelected: _selectedIndex == 2,
-                    onTap: () => setState(() => _selectedIndex = 2),
-                  ),
-                  _buildNavItem(
-                    icon: Icons.settings,
-                    label: 'Settings',
-                    isSelected: _selectedIndex == 3,
-                    onTap: () => setState(() => _selectedIndex = 3),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      // Apple-style Bottom Navigation
+      bottomNavigationBar: _buildAppleBottomNav(),
     );
   }
 
-  Widget _buildDashboardCard({
-    required IconData icon,
+  Widget _buildPortfolioCard({
     required String title,
     required String value,
-    required Color color,
+    required String change,
+    required String percentage,
+    required IconData icon,
   }) {
     return LiquidGlass(
       shape: LiquidRoundedSuperellipse(borderRadius: 20),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white.withOpacity(0.2),
-              Colors.white.withOpacity(0.05),
-            ],
+          border: Border.all(
+            color: Colors.white.withOpacity(0.08),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(12),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF4A5FFF),
+                    Color(0xFF00D4FF),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF4A5FFF).withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Icon(
                 icon,
                 color: Colors.white,
-                size: 28,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ],
               ),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  value,
+                  change,
+                  style: const TextStyle(
+                    color: Color(0xFF4ADE80),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (percentage.isNotEmpty)
+                  Text(
+                    percentage,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.5),
+                      fontSize: 12,
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStockCard({
+    required String symbol,
+    required String name,
+    required String price,
+    required String change,
+    required String percentage,
+    required bool isPositive,
+  }) {
+    return LiquidGlass(
+      shape: LiquidRoundedSuperellipse(borderRadius: 16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white.withOpacity(0.05),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            // Stock Icon
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  symbol[0],
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Stock Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    symbol,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    name,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.5),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Price and Change
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
                 Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
-                    fontSize: 14,
+                  price,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isPositive
+                        ? const Color(0xFF4ADE80).withOpacity(0.15)
+                        : const Color(0xFFEF4444).withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        isPositive ? Icons.arrow_upward : Icons.arrow_downward,
+                        color: isPositive
+                            ? const Color(0xFF4ADE80)
+                            : const Color(0xFFEF4444),
+                        size: 10,
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        percentage,
+                        style: TextStyle(
+                          color: isPositive
+                              ? const Color(0xFF4ADE80)
+                              : const Color(0xFFEF4444),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -337,107 +502,79 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildActivityCard({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required String time,
-  }) {
-    return LiquidGlass(
-      shape: LiquidRoundedSuperellipse(borderRadius: 16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
+  Widget _buildAppleBottomNav() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      height: 72,
+      child: LiquidGlassLayer(
+        child: LiquidGlass(
+          shape: LiquidRoundedSuperellipse(borderRadius: 24),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-              ),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 30,
+                  offset: const Offset(0, 10),
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavIcon(
+                  icon: Icons.home_filled,
+                  isSelected: _selectedIndex == 0,
+                  onTap: () => setState(() => _selectedIndex = 0),
+                ),
+                _buildNavIcon(
+                  icon: Icons.trending_up,
+                  isSelected: _selectedIndex == 1,
+                  onTap: () => setState(() => _selectedIndex = 1),
+                ),
+                _buildNavIcon(
+                  icon: Icons.explore_outlined,
+                  isSelected: _selectedIndex == 2,
+                  onTap: () => setState(() => _selectedIndex = 2),
+                ),
+                _buildNavIcon(
+                  icon: Icons.person_outline,
+                  isSelected: _selectedIndex == 3,
+                  onTap: () => setState(() => _selectedIndex = 3),
+                ),
+              ],
             ),
-            Text(
-              time,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.6),
-                fontSize: 12,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildNavItem({
+  Widget _buildNavIcon({
     required IconData icon,
-    required String label,
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? Colors.white.withOpacity(0.2)
+              ? Colors.white.withOpacity(0.15)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? Colors.white : Colors.white.withOpacity(0.6),
-              size: 24,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                color:
-                    isSelected ? Colors.white : Colors.white.withOpacity(0.6),
-                fontSize: 10,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ],
+        child: Icon(
+          icon,
+          color: isSelected ? Colors.white : Colors.white.withOpacity(0.5),
+          size: 26,
         ),
       ),
     );

@@ -43,17 +43,16 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background gradient
+          // Dark background gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF667eea),
-                  Color(0xFF764ba2),
-                  Color(0xFFf093fb),
-                  Color(0xFF4facfe),
+                  Color(0xFF0A0E27),
+                  Color(0xFF1A1F3A),
+                  Color(0xFF0F1419),
                 ],
               ),
             ),
@@ -67,7 +66,12 @@ class _LoginPageState extends State<LoginPage> {
               height: 300,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.1),
+                gradient: RadialGradient(
+                  colors: [
+                    const Color(0xFF4A5FFF).withOpacity(0.15),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
           ),
@@ -79,7 +83,12 @@ class _LoginPageState extends State<LoginPage> {
               height: 400,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.1),
+                gradient: RadialGradient(
+                  colors: [
+                    const Color(0xFF00D4FF).withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
           ),
@@ -91,38 +100,67 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // App Title
-                    const Text(
-                      'Welcome',
-                      style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10,
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
+                    // App Logo/Icon
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [
+                            const Color(0xFF4A5FFF).withOpacity(0.8),
+                            const Color(0xFF00D4FF).withOpacity(0.8),
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF4A5FFF).withOpacity(0.3),
+                            blurRadius: 20,
+                            spreadRadius: 5,
                           ),
                         ],
+                      ),
+                      child: const Icon(
+                        Icons.trending_up,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    // App Title
+                    const Text(
+                      'Market Pro',
+                      style: TextStyle(
+                        fontSize: 42,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        letterSpacing: -1,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Sign in to continue',
+                      'Track your investments',
                       style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 16,
+                        color: Colors.white.withOpacity(0.6),
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     const SizedBox(height: 60),
-                    // Login Card with Glass Effect
+                    // Login Card with Dark Glass Effect
                     LiquidGlass(
-                      shape: LiquidRoundedSuperellipse(borderRadius: 30),
+                      shape: LiquidRoundedSuperellipse(borderRadius: 24),
                       child: Container(
                         width: double.infinity,
                         constraints: const BoxConstraints(maxWidth: 400),
                         padding: const EdgeInsets.all(32),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -146,33 +184,36 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               width: double.infinity,
                               height: 56,
-                              child: LiquidGlass(
-                                shape: LiquidRoundedSuperellipse(
-                                  borderRadius: 16,
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    onTap: _handleLogin,
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.white.withOpacity(0.3),
-                                            Colors.white.withOpacity(0.1),
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: _handleLogin,
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF4A5FFF),
+                                          Color(0xFF00D4FF),
+                                        ],
                                       ),
-                                      child: const Text(
-                                        'Login',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                      borderRadius: BorderRadius.circular(16),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0xFF4A5FFF).withOpacity(0.4),
+                                          blurRadius: 20,
+                                          offset: const Offset(0, 10),
                                         ),
+                                      ],
+                                    ),
+                                    child: const Text(
+                                      'Sign In',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
                                       ),
                                     ),
                                   ),
@@ -234,25 +275,36 @@ class _LoginPageState extends State<LoginPage> {
     bool obscureText = false,
     TextInputType? keyboardType,
   }) {
-    return LiquidGlass(
-      shape: LiquidRoundedSuperellipse(borderRadius: 16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
           color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
+          width: 1,
         ),
-        child: TextField(
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: keyboardType,
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            labelText: label,
-            labelStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
-            prefixIcon: Icon(icon, color: Colors.white.withOpacity(0.8)),
-            border: InputBorder.none,
+      ),
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+        ),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(
+            color: Colors.white.withOpacity(0.5),
+            fontSize: 14,
           ),
+          prefixIcon: Icon(
+            icon,
+            color: Colors.white.withOpacity(0.5),
+            size: 20,
+          ),
+          border: InputBorder.none,
         ),
       ),
     );
