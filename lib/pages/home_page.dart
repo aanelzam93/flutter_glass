@@ -290,7 +290,7 @@ class _HomePageState extends State<HomePage> {
   }) {
     return LiquidGlass(
       shape: const LiquidRoundedRectangle(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: Radius.circular(20),
       ),
       child: Container(
         padding: const EdgeInsets.all(20),
@@ -391,7 +391,7 @@ class _HomePageState extends State<HomePage> {
   }) {
     return LiquidGlass(
       shape: const LiquidRoundedRectangle(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: Radius.circular(16),
       ),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -510,7 +510,7 @@ class _HomePageState extends State<HomePage> {
       height: 72,
       child: LiquidGlass(
         shape: const LiquidRoundedRectangle(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
+          borderRadius: Radius.circular(24),
         ),
         child: Container(
           decoration: BoxDecoration(

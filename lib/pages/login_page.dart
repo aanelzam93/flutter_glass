@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Login Card with Glass Effect
                     LiquidGlass(
                       shape: const LiquidRoundedRectangle(
-                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                        borderRadius: Radius.circular(24),
                       ),
                       child: Container(
                         width: double.infinity,
